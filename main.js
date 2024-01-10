@@ -1,7 +1,10 @@
 let comptes = {};
 let accountNum = 0;
 
-chargerComptes();
+window.onload = function () {
+  chargerComptes();
+};
+
 
 function initCompte (){
     nomz = prompt('Nom')
@@ -13,46 +16,7 @@ function creerCompte(nom, valeur) {
     if (!comptes.hasOwnProperty(nom)) {
       comptes[nom] = { nom: nom, valeur: valeur };
       sauvegarderComptes();
-      console.log("Nouveau compte créé :", nom);
-      console.log(nom)
-      console.log(valeur)
-
-      const accounts = document.getElementById('accounts')
-      const divCr = document.createElement('div')
-      divCr.id = nom;
-      divCr.className = 'account'
-      accounts.appendChild(divCr)
-
-      const accountGet = document.getElementById(nom)
-      const accountTitle = document.createElement('h1')
-      accountTitle.textContent = (nom)
-      const accountValue = document.createElement('p')
-      accountValue.textContent = (valeur)
-      const buttonsDiv = document.createElement('div')
-      buttonsDiv.id = 'buttonsUl'
-      
-
-      accountGet.appendChild(accountTitle)
-      accountGet.appendChild(accountValue)
-      accountGet.appendChild(buttonsDiv)
-
-      const buttonsDivGet = document.getElementById('buttonsUl')
-      const btnAdd = document.createElement('button')
-      btnAdd.id = "buttonAdd"
-      btnAdd.textContent = ("Ajouter")
-      btnRetrait.addEventListener ('click', function() {
-        ajouterArgent();
-      });
-      const btnRetrait = document.createElement('button')
-      btnRetrait.id = "buttonRetrait"
-      btnRetrait.textContent = ("Retirer")
-      btnRetrait.addEventListener ('click', function() {
-        retirerArgent();
-      });
-
-      buttonsDivGet.appendChild(btnAdd)
-      buttonsDivGet.appendChild(btnRetrait)
-
+      location.reload();
     } else {
       alert("Le compte existe déjà :", nom);
     }
@@ -63,46 +27,39 @@ function ajouterArgent (){
   raison = prompt('Quel est la raison')
   if (somme !== isNaN && somme !== null && somme !== 0) {
 
-      // const compte = comptes[nomCompte];
-      // Recuperer le compte en questions
-      // modifier la valeur en fonction de la somme
-      // ajouter la somme dans une liste avec la raison d'ajout.
-      // comptes.accountNum.valeur = comptes.accountNum.valeur + somme;
-      // comptes[nomCompte].valeur += montant;
-
   } else {
-      alert('Veuillez entrez un nombre valide')
+      alert('Veuillez entrer un nombre valide')
   }
 }
 
 // Récupérer le nom du compte sur lequel le boutton à été activé et modifier la somme dans l'objet.
-function retirerArgent (){
-  soustraction = prompt('entrez la somme à soustraire')
-  raison = prompt('Quelle est la raison')
-  if (soustraction !== isNaN && soustraction !== null && soustraction !== 0) {
-    raisonRetrait = raisonRetrait + 1;
-      argent = parseInt(argent) - parseInt(soustraction)
-      document.getElementById('laSomme' + aNum).innerHTML = argent + ' euros';
+// function retirerArgent (){
+//   soustraction = prompt('entrez la somme à soustraire')
+//   raison = prompt('Quelle est la raison')
+//   if (soustraction !== isNaN && soustraction !== null && soustraction !== 0) {
+//     raisonRetrait = raisonRetrait + 1;
+//       argent = parseInt(argent) - parseInt(soustraction)
+//       document.getElementById('laSomme' + aNum).innerHTML = argent + ' euros';
 
-      let raisonsGet = document.getElementById('raisons' + aNum)
-      console.log(aNum)
-      let raisonLi = document.createElement('li')
-      raisonLi.id = "raisonRetrait" + aNum + 0 + raisonRetrait;
-      raisonLi.className = "valeurSuivi"
+//       let raisonsGet = document.getElementById('raisons' + aNum)
+//       console.log(aNum)
+//       let raisonLi = document.createElement('li')
+//       raisonLi.id = "raisonRetrait" + aNum + 0 + raisonRetrait;
+//       raisonLi.className = "valeurSuivi"
 
-      raisonsGet.appendChild(raisonLi)
-      liGet = document.getElementById("raisonRetrait" + aNum + 0 + raisonRetrait)
-      txtRetrait = document.createElement('p');
-      txtRetrait.textContent = ('-' + soustraction + ':');
-      raisonRetrait = document.createElement('p');
-      raisonRetrait.textContent = (raison)
+//       raisonsGet.appendChild(raisonLi)
+//       liGet = document.getElementById("raisonRetrait" + aNum + 0 + raisonRetrait)
+//       txtRetrait = document.createElement('p');
+//       txtRetrait.textContent = ('-' + soustraction + ':');
+//       raisonRetrait = document.createElement('p');
+//       raisonRetrait.textContent = (raison)
 
-      liGet.appendChild(txtRetrait)
-      liGet.appendChild(raisonRetrait)
-  } else {
-      alert('Veuillez entrez un nombre valide')
-  }
-}
+//       liGet.appendChild(txtRetrait)
+//       liGet.appendChild(raisonRetrait)
+//   } else {
+//       alert('Veuillez entrez un nombre valide')
+//   }
+// }
 
 function sauvegarderComptes() {
   localStorage.setItem('comptes', JSON.stringify(comptes));
@@ -127,6 +84,7 @@ function chargerComptes() {
         const accountTitle = document.createElement('h1');
         accountTitle.textContent = compte.nom;
         const accountValue = document.createElement('p');
+        accountValue.id = 'account' + compte.nom;
         accountValue.textContent = compte.valeur;
         const buttonsDiv = document.createElement('div');
         buttonsDiv.className = 'buttonsUl';
@@ -141,34 +99,87 @@ function chargerComptes() {
         btnAdd.setAttribute('data-compte', nomCompte)
         // set attribute pour garder le compte.
         btnAdd.addEventListener ('click', function() {
-          accountNum = compte.nom
-          console.log(accountNum)
-          ajouterArgent();
+          let somme = prompt("Combien ?")
+          let raisonAdd = prompt("Pourquoi ?")
+          let compteId = compte.nom
+          let accountValue = comptes[compteId].valeur;
+          console.log(accountValue)
+          let newSomme = parseInt(accountValue) + parseInt(somme)
+          console.log(newSomme)
+          comptes[compteId].valeur = newSomme;
+          
+          let compteData = localStorage.getItem(compteId)
+
+          if(compteData){
+            let compte = json.parse(compteData)
+            compte.valeur = newSomme;
+            localStorage.setItem(compteId, JSON.stringify(compte));
+            // sauvegarderComptes();
+            // location.reload();
+          }
+          
+          // document.getElementById('account' + compteId).innerHTML = newSomme;
+          
+          // comptes[compteId].raison = raisonAdd;
+          //Faire completement un nouvel objet à l'interieur de l'objet raisons. et y stocker tout le flux.
         });
         const btnRetrait = document.createElement('button');
         btnRetrait.textContent = 'Retirer';
         btnRetrait.addEventListener ('click', function() {
           retirerArgent();
         });
-    
+        const deleteAccount = document.createElement('button')
+        deleteAccount.textContent = 'Supprimer le compte'
+        deleteAccount.addEventListener ('click', function(){
+          let compteId = compte.nom;
+          supprCompte(compteId);
+          console.log(compte.nom)
+        })
+
         buttonsDivGet.appendChild(btnAdd);
         buttonsDivGet.appendChild(btnRetrait);
+        buttonsDivGet.appendChild(deleteAccount)
       }
     }
     
   }
 }
 
+function supprCompte (accountId){
+  
+  localStorage.removeItem(accountId);
+  // localStorage.removeItem(accountId);
+  
+  delete comptes[accountId];
+
+  sauvegarderComptes();
+  location.reload();
+  
+  console.log('suppression de compte initialisé')
+  console.log(accountId)
+  delete comptes.mike;
+  
+
+  //Supression ne fonctionne pas, soit a cause du local storage, ou peut etre le fait que les infos se stockent
+  //dans le html.
+
+}
+
 
 //Local storage optimal.
 
-// Suprimer compte.
+// Supprimer compte.
 // ajouter et retirer de l'argent d'un compte + raison.
-// Sauvegarder les flux d'argent dans l'objet comptes.
+// Sauvegarder les flux d'argent (avec raison) dans l'objet comptes.
 // Faire des transferts suivis entre comptes
 
-// Ajout d'entrées/sorties d'argent avenir. Ponctuel ou répétitif.
+//Fusionner la creation des elements html lors d'initiation de compte et lors de chargement de la page.
+//ou alors des que valeurs initiés reload.
+
+// Ajout d'entrées/sorties d'argent a venir. Ponctuel ou répétitif.
 // Graphiques du flux monétaire.
-// Prévision avenirs, basé sur les entrées/sorties avenirs et/ou sur des moyennes de dépenses et entrées.
+// Prévision avenirs, basé sur les entrées/sorties a venirs et/ou sur des moyennes de dépenses et entrées.
 
 // Design
+
+// Comment manipuler le objets et maitriser le local storage.
