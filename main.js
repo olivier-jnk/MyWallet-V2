@@ -103,30 +103,37 @@ function chargerComptes() {
           let raisonAdd = prompt("Pourquoi ?")
           let compteId = compte.nom
           let accountValue = comptes[compteId].valeur;
-          console.log(accountValue)
+          // console.log(accountValue)
           let newSomme = parseInt(accountValue) + parseInt(somme)
-          console.log(newSomme)
+          // console.log(newSomme)
           comptes[compteId].valeur = newSomme;
+          // delete comptes[compteId].valeur;
+          sauvegarderComptes();
+          location.reload();
           
-          let compteData = localStorage.getItem(compteId)
+          
+          // localStorage.setItem(comptes[compteId].valeur = newSomme);
+          // let compteData = localStorage.getItem(compteId)
 
-          if(compteData){
-            let compte = json.parse(compteData)
-            compte.valeur = newSomme;
-            localStorage.setItem(compteId, JSON.stringify(compte));
-            // sauvegarderComptes();
-            // location.reload();
-          }
-          
-          // document.getElementById('account' + compteId).innerHTML = newSomme;
-          
-          // comptes[compteId].raison = raisonAdd;
-          //Faire completement un nouvel objet à l'interieur de l'objet raisons. et y stocker tout le flux.
+          // if(compteData){
+          //   let compte = json.parse(compteData)
+          //   compte.valeur = newSomme;
+          //   localStorage.setItem(compteId, JSON.stringify(compte));
+          //   // sauvegarderComptes();
+          //   // location.reload();
+          // }
         });
         const btnRetrait = document.createElement('button');
         btnRetrait.textContent = 'Retirer';
         btnRetrait.addEventListener ('click', function() {
-          retirerArgent();
+          let soust = prompt("Combien ?")
+          let raisonRetrait = prompt("Pourquoi ?")
+          let compteId = compte.nom
+          let accountValue = comptes[compteId].valeur;
+          let newSomme = parseInt(accountValue) - parseInt(soust)
+          comptes[compteId].valeur = newSomme;
+          sauvegarderComptes();
+          location.reload();
         });
         const deleteAccount = document.createElement('button')
         deleteAccount.textContent = 'Supprimer le compte'
@@ -140,38 +147,29 @@ function chargerComptes() {
         buttonsDivGet.appendChild(btnRetrait);
         buttonsDivGet.appendChild(deleteAccount)
       }
-    }
-    
+    } 
   }
 }
 
 function supprCompte (accountId){
-  
-  localStorage.removeItem(accountId);
   // localStorage.removeItem(accountId);
-  
+  // localStorage.removeItem(accountId); 
   delete comptes[accountId];
-
   sauvegarderComptes();
   location.reload();
-  
   console.log('suppression de compte initialisé')
   console.log(accountId)
-  delete comptes.mike;
-  
-
-  //Supression ne fonctionne pas, soit a cause du local storage, ou peut etre le fait que les infos se stockent
-  //dans le html.
-
+  // delete comptes.mike;
 }
 
 
 //Local storage optimal.
 
-// Supprimer compte.
-// ajouter et retirer de l'argent d'un compte + raison.
+// Supprimer compte. x
+// ajouter et retirer de l'argent d'un compte + raison. x
 // Sauvegarder les flux d'argent (avec raison) dans l'objet comptes.
 // Faire des transferts suivis entre comptes
+// Mieux encadrer l'entree de valeurs pour éviter les problemes (5 000, valeur de comptes en lettres...)
 
 //Fusionner la creation des elements html lors d'initiation de compte et lors de chargement de la page.
 //ou alors des que valeurs initiés reload.
