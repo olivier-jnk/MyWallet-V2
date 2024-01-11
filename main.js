@@ -5,7 +5,6 @@ window.onload = function () {
   chargerComptes();
 };
 
-
 function initCompte (){
     nomz = prompt('Nom')
     valeurz = prompt('valeur')
@@ -13,13 +12,18 @@ function initCompte (){
 }
 
 function creerCompte(nom, valeur) {
-    if (!comptes.hasOwnProperty(nom)) {
+    if (!comptes.hasOwnProperty(nom) && valeur != NaN && valeur != null && valeur != 0) { 
+      // Modifier le if, pour que la valeur soit correcte et que si non elseif spéciale, sinon: compte existe déjà.
       comptes[nom] = { nom: nom, valeur: valeur };
       sauvegarderComptes();
       location.reload();
     } else {
       alert("Le compte existe déjà :", nom);
     }
+    
+    // else if(valeur == Nan || valeur == null || valeur == 0){
+    //   alert("Merci d'entrer une valeur valide.")
+    // }   
 }
 
 function ajouterArgent (){ 
@@ -31,35 +35,6 @@ function ajouterArgent (){
       alert('Veuillez entrer un nombre valide')
   }
 }
-
-// Récupérer le nom du compte sur lequel le boutton à été activé et modifier la somme dans l'objet.
-// function retirerArgent (){
-//   soustraction = prompt('entrez la somme à soustraire')
-//   raison = prompt('Quelle est la raison')
-//   if (soustraction !== isNaN && soustraction !== null && soustraction !== 0) {
-//     raisonRetrait = raisonRetrait + 1;
-//       argent = parseInt(argent) - parseInt(soustraction)
-//       document.getElementById('laSomme' + aNum).innerHTML = argent + ' euros';
-
-//       let raisonsGet = document.getElementById('raisons' + aNum)
-//       console.log(aNum)
-//       let raisonLi = document.createElement('li')
-//       raisonLi.id = "raisonRetrait" + aNum + 0 + raisonRetrait;
-//       raisonLi.className = "valeurSuivi"
-
-//       raisonsGet.appendChild(raisonLi)
-//       liGet = document.getElementById("raisonRetrait" + aNum + 0 + raisonRetrait)
-//       txtRetrait = document.createElement('p');
-//       txtRetrait.textContent = ('-' + soustraction + ':');
-//       raisonRetrait = document.createElement('p');
-//       raisonRetrait.textContent = (raison)
-
-//       liGet.appendChild(txtRetrait)
-//       liGet.appendChild(raisonRetrait)
-//   } else {
-//       alert('Veuillez entrez un nombre valide')
-//   }
-// }
 
 function sauvegarderComptes() {
   localStorage.setItem('comptes', JSON.stringify(comptes));
@@ -97,31 +72,19 @@ function chargerComptes() {
         const btnAdd = document.createElement('button');
         btnAdd.textContent = 'Ajouter';
         btnAdd.setAttribute('data-compte', nomCompte)
-        // set attribute pour garder le compte.
+
         btnAdd.addEventListener ('click', function() {
           let somme = prompt("Combien ?")
           let raisonAdd = prompt("Pourquoi ?")
           let compteId = compte.nom
           let accountValue = comptes[compteId].valeur;
-          // console.log(accountValue)
+
           let newSomme = parseInt(accountValue) + parseInt(somme)
-          // console.log(newSomme)
+
           comptes[compteId].valeur = newSomme;
-          // delete comptes[compteId].valeur;
+
           sauvegarderComptes();
           location.reload();
-          
-          
-          // localStorage.setItem(comptes[compteId].valeur = newSomme);
-          // let compteData = localStorage.getItem(compteId)
-
-          // if(compteData){
-          //   let compte = json.parse(compteData)
-          //   compte.valeur = newSomme;
-          //   localStorage.setItem(compteId, JSON.stringify(compte));
-          //   // sauvegarderComptes();
-          //   // location.reload();
-          // }
         });
         const btnRetrait = document.createElement('button');
         btnRetrait.textContent = 'Retirer';
@@ -152,14 +115,13 @@ function chargerComptes() {
 }
 
 function supprCompte (accountId){
-  // localStorage.removeItem(accountId);
-  // localStorage.removeItem(accountId); 
+
   delete comptes[accountId];
   sauvegarderComptes();
   location.reload();
   console.log('suppression de compte initialisé')
   console.log(accountId)
-  // delete comptes.mike;
+
 }
 
 function preTransfert (){
@@ -188,22 +150,17 @@ function transfert (accountId1, accountId2, somme, raison){
   location.reload();
 }
 
+//Local storage optimal. x
 
-//Local storage optimal.
-
-// Supprimer compte. x
-// ajouter et retirer de l'argent d'un compte + raison. x
+// ajouter et retirer de l'argent d'un compte x / + raison. 
 // Sauvegarder les flux d'argent (avec raison) dans l'objet comptes.
-// Faire des transferts suivis entre comptes
+// Faire des transferts x / suivis entre comptes
 // Mieux encadrer l'entree de valeurs pour éviter les problemes (5 000, valeur de comptes en lettres...)
 
-//Fusionner la creation des elements html lors d'initiation de compte et lors de chargement de la page.
-//ou alors des que valeurs initiés reload.
-
+// BONUS:
 // Ajout d'entrées/sorties d'argent a venir. Ponctuel ou répétitif.
-// Graphiques du flux monétaire.
+// Graphiques du flux monétaire .
 // Prévision avenirs, basé sur les entrées/sorties a venirs et/ou sur des moyennes de dépenses et entrées.
 
 // Design
-
 // Comment manipuler le objets et maitriser le local storage.
