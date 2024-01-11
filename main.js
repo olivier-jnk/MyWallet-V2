@@ -162,6 +162,32 @@ function supprCompte (accountId){
   // delete comptes.mike;
 }
 
+function preTransfert (){
+
+  accountId1 = prompt('Compte qui envoie')
+  accountId2 = prompt('Compte qui recoit')
+  somme = prompt('Combien ?')
+  raison = prompt('Ajouter un commentaire')
+  transfert(accountId1, accountId2, somme, raison);
+
+}
+
+function transfert (accountId1, accountId2, somme, raison){
+  // Compte 1 = compte qui envoie vers le compte2
+  compte1Valeur = comptes[accountId1].valeur;
+  compte2Valeur = comptes[accountId2].valeur;
+  newValeurCompte1 = parseInt(compte1Valeur) - parseInt(somme);
+  newValeurCompte2 = parseInt(compte2Valeur) + parseInt(somme);
+  
+  //raison on la garde de coté pour l'instant.
+
+  comptes[accountId1].valeur = newValeurCompte1;
+  comptes[accountId2].valeur = newValeurCompte2;
+
+  sauvegarderComptes();
+  location.reload();
+}
+
 
 //Local storage optimal.
 
