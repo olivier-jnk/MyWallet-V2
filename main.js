@@ -73,6 +73,13 @@ function chargerComptes() {
         btnAdd.textContent = 'Ajouter';
         btnAdd.setAttribute('data-compte', nomCompte)
 
+        // let raisonnement = {
+        //   raisonNum : nomCompte + '01',
+        // }
+        // let compteIdpre = comptes[nomCompte]
+        // let raisons = Object.create(raisonnement)
+        // raisons.name = 'raisons' + nomCompte;
+
         btnAdd.addEventListener ('click', function() {
           let somme = prompt("Combien ?")
           let raisonAdd = prompt("Pourquoi ?")
@@ -82,6 +89,9 @@ function chargerComptes() {
           let newSomme = parseInt(accountValue) + parseInt(somme)
 
           comptes[compteId].valeur = newSomme;
+
+          // const raisonCreate = comptes[compteId].Object.create(raisons)
+          // raison
 
           sauvegarderComptes();
           location.reload();
