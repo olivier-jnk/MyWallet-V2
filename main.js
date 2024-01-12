@@ -90,6 +90,8 @@ function chargerComptes() {
 
           comptes[compteId].valeur = newSomme;
 
+          comptes[compteId].raison = raisonAdd + somme + '01';
+
           // const raisonCreate = comptes[compteId].Object.create(raisons)
           // raison
 
@@ -162,10 +164,14 @@ function transfert (accountId1, accountId2, somme, raison){
 
 //Local storage optimal. x
 
-// ajouter et retirer de l'argent d'un compte x / + raison. 
+// ajouter et retirer de l'argent d'un compte x / + raison. (objet raisons dans compte avec objets raison qui stockent somme, raison et date. + possibilité
+// de mettre en avant le dernier flux d'argent.) (pour les transfert, sauvegarder le flux dans chq compte avec la raison. (double raison possible (une pour
+// celui qui fait le virement et une autre pour celui qui le recoit, les deux rédigés par l'envoyeur.)))
 // Sauvegarder les flux d'argent (avec raison) dans l'objet comptes.
 // Faire des transferts x / suivis entre comptes
 // Mieux encadrer l'entree de valeurs pour éviter les problemes (5 000, valeur de comptes en lettres...)
+// Amelioration plus tard des moyens de creations de changement de compte et de modification, retirer les alert.
+// Possibilité de changer le nom du compte, la valeur, supprimer l'historique...
 
 // BONUS:
 // Ajout d'entrées/sorties d'argent a venir. Ponctuel ou répétitif.
