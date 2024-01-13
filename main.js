@@ -13,7 +13,14 @@ window.onload = function () {
 function initCompte (){
     nomz = prompt('Nom')
     valeurz = prompt('valeur')
-    creerCompte(nomz, valeurz)
+    // valeurzv = valeurz.split(" ").join(""); //Pour eviter les comptes: 'compte '. Pb dans le transfert.
+    // console.log(valeurzv)
+
+    // if(valeurz = ){
+    //   creerCompte(nomz, valeurz)
+    // }else{
+    //   alert("La valeur est constitué de lettre, elle ne doit contenir que des chiffres.")
+    // }
 }
 
 function creerCompte(nom, valeur) {
@@ -30,10 +37,6 @@ function creerCompte(nom, valeur) {
     //   alert("Merci d'entrer une valeur valide.")
     // }   
 }
-
-// creerCompte.prototype.ajouterSomme = function (montant, raison){
-//   this.raisons.push({ somme: montant, raison: raison });
-// }
 
 function ajouterArgent (){ 
   somme = prompt('entrez la somme à ajouter')
@@ -81,8 +84,6 @@ function chargerComptes() {
         const btnAdd = document.createElement('button');
         btnAdd.textContent = 'Ajouter';
         btnAdd.setAttribute('data-compte', nomCompte)
-
-      
         btnAdd.addEventListener ('click', function() {
           let compteId = compte.nom
 
@@ -99,11 +100,6 @@ function chargerComptes() {
           comptes[compteId].valeur = newSomme;
 
           FluxTracker(compteId, somme, raisonAdd, "21/01/2020", ajout);
-
-          // comptes[compteId].raisons['raison' + init] = 'ajout de ' + somme + ' euros sur le compte. Raison indiquée : ' + raisonAdd + ' date : '; // raison dans raisons
-
-          // const raisonCreate = comptes[compteId].Object.create(raisons)
-          // raison
 
           sauvegarderComptes();
           location.reload();
@@ -133,7 +129,7 @@ function chargerComptes() {
         buttonsDivGet.appendChild(btnRetrait);
         buttonsDivGet.appendChild(deleteAccount)
 
-        //Fonctionne mais empeche l'apparition d'autres comptes. Voir pourquoi.
+        //Mise en place de l'historique
         const raisonUl = document.createElement('details')
         raisonUl.id = "Flux" + nomCompte;
         
@@ -148,16 +144,10 @@ function chargerComptes() {
         for (let i = 0; i < comptes[nomCompte].raisons.length; i++) {
           console.log('LANCE')
           // Recuperation de tous les element du flux et conversion en chaine de caracteres.
-          let raisonDate = comptes[nomCompte].raisons[i].date
+          let raisonDate = comptes[nomCompte].raisons[i].date // Innutilisé pour l'instant, ajouter calcul de date et heure ?
           let raisonRaison = comptes[nomCompte].raisons[i].raison
           let raisonSomme = comptes[nomCompte].raisons[i].somme
           let raisonajoutOuRetrait = comptes[nomCompte].raisons[i].ajoutOuRetrait
-          
-          
-          const raisonDateString = JSON.stringify(raisonDate)
-          const raisonRaisonString = JSON.stringify(raisonRaison)
-          const raisonSommeString = JSON.stringify(raisonSomme)
-          const raisonajoutOuRetraitString = JSON.stringify(raisonajoutOuRetrait)
 
           //Trouver un moyen plus propre de faire tout ca
           
@@ -165,17 +155,8 @@ function chargerComptes() {
           raisonLi.textContent = raisonajoutOuRetrait + ' de ' + raisonSomme + ' euros : ' + raisonRaison;
           raisonLi.id = nomCompte + iteration;
           detailsGet.appendChild(raisonLi);
-          iteration += 1;
+          // iteration += 1;
         } 
-
-        // console.log(comptes[nomCompte].raisons[1])
-        // for(i = 0; i > raison.lenght; i++){
-        //   consolelog
-        //   comptes[nomcompte].raison
-        // }
-        
-        
-        
       }
     } 
   }
@@ -246,7 +227,6 @@ function transfert (accountId1, accountId2, somme, raison){
   location.reload();
 }
 
-
 // Mieux encadrer l'entree de valeurs pour éviter les problemes (5 000, valeur de comptes en lettres...)
 // Amelioration plus tard des moyens de creations de changement de compte et de modification, retirer les alerts et prompts faire ca mode intuitif.
 // Possibilité de changer le nom du compte, la valeur, supprimer l'historique... ajouter des commentaires aux raisons.
@@ -254,10 +234,11 @@ function transfert (accountId1, accountId2, somme, raison){
 // Ajouter le systeme de calcul de date pour dater chq flux.
 // Ajouter le systeme anti-mauvais transfert. si un compte veut transferer 540 sur un autre mais il n'a que 30, refuser le transfert.
 
+// selections des comptes pour transfert avec qlq chose de plus visuel.
+
 // BONUS:
 // Ajout d'entrées/sorties d'argent a venir. Ponctuelles ou répétitives.
 // Graphiques du flux monétaire .
 // Prévision avenirs, basé sur les entrées/sorties à venirs et/ou sur des moyennes de dépenses et entrées.
 
 // Design
-// Comment manipuler le objets et maitriser le local storage.
