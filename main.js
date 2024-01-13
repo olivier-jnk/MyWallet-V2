@@ -1,5 +1,9 @@
 let comptes = {};
 let accountNum = 0;
+let init = 0;
+ajout = 'Ajout'
+retrait = 'Retrait'
+
 
 window.onload = function () {
   chargerComptes();
@@ -14,17 +18,21 @@ function initCompte (){
 function creerCompte(nom, valeur) {
     if (!comptes.hasOwnProperty(nom) && valeur != NaN && valeur != null && valeur != 0) { 
       // Modifier le if, pour que la valeur soit correcte et que si non elseif spéciale, sinon: compte existe déjà.
-      comptes[nom] = { nom: nom, valeur: valeur };
+      comptes[nom] = { nom: nom, valeur: valeur, raisons: [], initiations: 0};
+      // comptes[raisons] = [];
       sauvegarderComptes();
       location.reload();
     } else {
       alert("Le compte existe déjà :", nom);
-    }
-    
+    }    
     // else if(valeur == Nan || valeur == null || valeur == 0){
     //   alert("Merci d'entrer une valeur valide.")
     // }   
 }
+
+// creerCompte.prototype.ajouterSomme = function (montant, raison){
+//   this.raisons.push({ somme: montant, raison: raison });
+// }
 
 function ajouterArgent (){ 
   somme = prompt('entrez la somme à ajouter')
@@ -81,16 +89,23 @@ function chargerComptes() {
         // raisons.name = 'raisons' + nomCompte;
 
         btnAdd.addEventListener ('click', function() {
+          let compteId = compte.nom
+
+          comptes[compteId].initiations += 1;
+
+          init = comptes[compteId].initiations; // Changer le nom plus tard.
           let somme = prompt("Combien ?")
           let raisonAdd = prompt("Pourquoi ?")
-          let compteId = compte.nom
+
           let accountValue = comptes[compteId].valeur;
 
           let newSomme = parseInt(accountValue) + parseInt(somme)
 
           comptes[compteId].valeur = newSomme;
 
-          comptes[compteId].raison = raisonAdd + somme + '01';
+          FluxTracker(compteId, somme, raisonAdd, "21/01/2020", ajout);
+
+          // comptes[compteId].raisons['raison' + init] = 'ajout de ' + somme + ' euros sur le compte. Raison indiquée : ' + raisonAdd + ' date : '; // raison dans raisons
 
           // const raisonCreate = comptes[compteId].Object.create(raisons)
           // raison
@@ -107,6 +122,7 @@ function chargerComptes() {
           let accountValue = comptes[compteId].valeur;
           let newSomme = parseInt(accountValue) - parseInt(soust)
           comptes[compteId].valeur = newSomme;
+          FluxTracker(compteId, soust, raisonRetrait, "21/01/2020", retrait);
           sauvegarderComptes();
           location.reload();
         });
@@ -126,6 +142,28 @@ function chargerComptes() {
   }
 }
 
+function FluxTracker (compteId, somme, raison, date, ajoutOuRetrait) {
+
+  if (comptes.hasOwnProperty(compteId)) {
+      const nouvelleRaison = {
+          message: `date : ${date} ${ajoutOuRetrait} de ${somme} euros sur le compte. Raison indiquée : ${raison}`,
+          date: date,
+          somme: somme,
+          raison: raison,
+          ajoutOuRetrait: ajoutOuRetrait,
+      };
+      // pas mal de faire un message mais peut etre mieux de stocker en plus chaque variables séparément pour pouvoir faire. Apres apparaitre 
+      // Le message voulu en html, en fonction de la situation
+
+      comptes[compteId].raisons.push(nouvelleRaison);
+
+      sauvegarderComptes();
+      location.reload();
+  } else {
+      alert("Le compte " + compteId + "n'existe pas...");
+  }
+}
+
 function supprCompte (accountId){
 
   delete comptes[accountId];
@@ -141,7 +179,7 @@ function preTransfert (){
   accountId1 = prompt('Compte qui envoie')
   accountId2 = prompt('Compte qui recoit')
   somme = prompt('Combien ?')
-  raison = prompt('Ajouter un commentaire')
+  raison = prompt('Ajouter un commentaire'); // Inclure somme + prompt des le debut ou le faire plus tard en fonnction du type ?
   transfert(accountId1, accountId2, somme, raison);
 
 }
@@ -152,6 +190,9 @@ function transfert (accountId1, accountId2, somme, raison){
   compte2Valeur = comptes[accountId2].valeur;
   newValeurCompte1 = parseInt(compte1Valeur) - parseInt(somme);
   newValeurCompte2 = parseInt(compte2Valeur) + parseInt(somme);
+
+  FluxTracker(accountId1, somme, raison, "21/01/2020", retrait);
+  FluxTracker(accountId2, somme, raison, "21/01/2020", ajout);
   
   //raison on la garde de coté pour l'instant.
 
@@ -172,6 +213,13 @@ function transfert (accountId1, accountId2, somme, raison){
 // Mieux encadrer l'entree de valeurs pour éviter les problemes (5 000, valeur de comptes en lettres...)
 // Amelioration plus tard des moyens de creations de changement de compte et de modification, retirer les alert.
 // Possibilité de changer le nom du compte, la valeur, supprimer l'historique...
+
+// Ajouter le systeme de calcul de date pour dater les raisons.
+// Ajouter le systeme anti-mauvais transfert. si un compte veut transferer 540 sur un autre mais il n'a que 30, refuser le transfert.
+// Afficher le flux des raisons dans le html. (deployable)
+// Pour transfert. ajouter. raison et commentaire pour l'envoyeur. Le receveur n'aura que le commentaire.
+// Ajouter dans le systeme transfert. pour l'envoyeur, vers quel compte , l'argent part et pour le receveur. de quel compte l'argent vient. bien indiquer
+// que c'est un transfert.
 
 // BONUS:
 // Ajout d'entrées/sorties d'argent a venir. Ponctuel ou répétitif.
