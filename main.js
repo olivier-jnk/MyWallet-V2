@@ -246,28 +246,18 @@ function transfert (accountId1, accountId2, somme, raison){
   location.reload();
 }
 
-//Local storage optimal. x
 
-// ajouter et retirer de l'argent d'un compte x / + raison. (objet raisons dans compte avec objets raison qui stockent somme, raison et date. + possibilité
-// de mettre en avant le dernier flux d'argent.) (pour les transfert, sauvegarder le flux dans chq compte avec la raison. (double raison possible (une pour
-// celui qui fait le virement et une autre pour celui qui le recoit, les deux rédigés par l'envoyeur.)))
-// Sauvegarder les flux d'argent (avec raison) dans l'objet comptes.
-// Faire des transferts x / suivis entre comptes
 // Mieux encadrer l'entree de valeurs pour éviter les problemes (5 000, valeur de comptes en lettres...)
-// Amelioration plus tard des moyens de creations de changement de compte et de modification, retirer les alert.
-// Possibilité de changer le nom du compte, la valeur, supprimer l'historique...
+// Amelioration plus tard des moyens de creations de changement de compte et de modification, retirer les alerts et prompts faire ca mode intuitif.
+// Possibilité de changer le nom du compte, la valeur, supprimer l'historique... ajouter des commentaires aux raisons.
 
-// Ajouter le systeme de calcul de date pour dater les raisons.
+// Ajouter le systeme de calcul de date pour dater chq flux.
 // Ajouter le systeme anti-mauvais transfert. si un compte veut transferer 540 sur un autre mais il n'a que 30, refuser le transfert.
-// Afficher le flux des raisons dans le html. (deployable)
-// Pour transfert. ajouter. raison et commentaire pour l'envoyeur. Le receveur n'aura que le commentaire.
-// Ajouter dans le systeme transfert. pour l'envoyeur, vers quel compte , l'argent part et pour le receveur. de quel compte l'argent vient. bien indiquer
-// que c'est un transfert.
 
 // BONUS:
-// Ajout d'entrées/sorties d'argent a venir. Ponctuel ou répétitif.
+// Ajout d'entrées/sorties d'argent a venir. Ponctuelles ou répétitives.
 // Graphiques du flux monétaire .
-// Prévision avenirs, basé sur les entrées/sorties a venirs et/ou sur des moyennes de dépenses et entrées.
+// Prévision avenirs, basé sur les entrées/sorties à venirs et/ou sur des moyennes de dépenses et entrées.
 
 // Design
 // Comment manipuler le objets et maitriser le local storage.
