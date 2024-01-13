@@ -1,8 +1,9 @@
 let comptes = {};
 let accountNum = 0;
 let init = 0;
-ajout = 'Ajout'
-retrait = 'Retrait'
+let ajout = 'Ajout'
+let retrait = 'Retrait'
+let iteration = 0
 
 
 window.onload = function () {
@@ -81,13 +82,7 @@ function chargerComptes() {
         btnAdd.textContent = 'Ajouter';
         btnAdd.setAttribute('data-compte', nomCompte)
 
-        // let raisonnement = {
-        //   raisonNum : nomCompte + '01',
-        // }
-        // let compteIdpre = comptes[nomCompte]
-        // let raisons = Object.create(raisonnement)
-        // raisons.name = 'raisons' + nomCompte;
-
+      
         btnAdd.addEventListener ('click', function() {
           let compteId = compte.nom
 
@@ -144,10 +139,41 @@ function chargerComptes() {
         
         accountGet.appendChild(raisonUl)
 
-        const detailsGet = document.getElementsById('Flux' + nomCompte)
+        const detailsGet = document.getElementById('Flux' + nomCompte)
         const createSummary = document.createElement('summary')
         createSummary.textContent = 'Historique';
         detailsGet.appendChild(createSummary)
+        console.log(comptes[nomCompte].raisons.length + 'length')
+
+        for (let i = 0; i < comptes[nomCompte].raisons.length; i++) {
+          console.log('LANCE')
+          // Recuperation de tous les element du flux et conversion en chaine de caracteres.
+          let raisonDate = comptes[nomCompte].raisons[i].date
+          let raisonRaison = comptes[nomCompte].raisons[i].raison
+          let raisonSomme = comptes[nomCompte].raisons[i].somme
+          let raisonajoutOuRetrait = comptes[nomCompte].raisons[i].ajoutOuRetrait
+          
+          
+          const raisonDateString = JSON.stringify(raisonDate)
+          const raisonRaisonString = JSON.stringify(raisonRaison)
+          const raisonSommeString = JSON.stringify(raisonSomme)
+          const raisonajoutOuRetraitString = JSON.stringify(raisonajoutOuRetrait)
+
+          //Trouver un moyen plus propre de faire tout ca
+          
+          const raisonLi = document.createElement('li')
+          raisonLi.textContent = raisonajoutOuRetrait + ' de ' + raisonSomme + ' euros : ' + raisonRaison;
+          raisonLi.id = nomCompte + iteration;
+          detailsGet.appendChild(raisonLi);
+          iteration += 1;
+        } 
+
+        // console.log(comptes[nomCompte].raisons[1])
+        // for(i = 0; i > raison.lenght; i++){
+        //   consolelog
+        //   comptes[nomcompte].raison
+        // }
+        
         
         
       }
@@ -192,7 +218,8 @@ function preTransfert (){
   accountId1 = prompt('Compte qui envoie')
   accountId2 = prompt('Compte qui recoit')
   somme = prompt('Combien ?')
-  raison = prompt('Ajouter un commentaire'); // Inclure somme + prompt des le debut ou le faire plus tard en fonnction du type ?
+  raison = prompt('Ajouter une raison'); // Inclure somme + prompt des le debut ou le faire plus tard en fonnction du type ?
+  commentaire = prompt('Ajouter un commentaire pour le compte: ' + accountId2)
   transfert(accountId1, accountId2, somme, raison);
 
 }
@@ -204,8 +231,11 @@ function transfert (accountId1, accountId2, somme, raison){
   newValeurCompte1 = parseInt(compte1Valeur) - parseInt(somme);
   newValeurCompte2 = parseInt(compte2Valeur) + parseInt(somme);
 
-  FluxTracker(accountId1, somme, raison, "21/01/2020", retrait);
-  FluxTracker(accountId2, somme, raison, "21/01/2020", ajout);
+  raisonTransfert1 = " Transfert vers le compte: " + accountId2 + ' Raison: ' + raison;
+  raisonTransfert2 = " Virement du compte: " + accountId1 + " Commentaire de l'envoyeur " + commentaire;
+
+  FluxTracker(accountId1, somme, raisonTransfert1, "21/01/2020", retrait);
+  FluxTracker(accountId2, somme, raisonTransfert2, "21/01/2020", ajout);
   
   //raison on la garde de coté pour l'instant.
 
