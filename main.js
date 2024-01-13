@@ -132,11 +132,24 @@ function chargerComptes() {
           let compteId = compte.nom;
           supprCompte(compteId);
           console.log(compte.nom)
-        })
+        }) 
 
         buttonsDivGet.appendChild(btnAdd);
         buttonsDivGet.appendChild(btnRetrait);
         buttonsDivGet.appendChild(deleteAccount)
+
+        //Fonctionne mais empeche l'apparition d'autres comptes. Voir pourquoi.
+        const raisonUl = document.createElement('details')
+        raisonUl.id = "Flux" + nomCompte;
+        
+        accountGet.appendChild(raisonUl)
+
+        const detailsGet = document.getElementsById('Flux' + nomCompte)
+        const createSummary = document.createElement('summary')
+        createSummary.textContent = 'Historique';
+        detailsGet.appendChild(createSummary)
+        
+        
       }
     } 
   }
