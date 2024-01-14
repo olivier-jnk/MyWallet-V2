@@ -5,22 +5,22 @@ let ajout = 'Ajout'
 let retrait = 'Retrait'
 let iteration = 0
 
-
 window.onload = function () {
   chargerComptes();
 };
 
 function initCompte (){
-    nomz = prompt('Nom')
-    valeurz = prompt('valeur')
-    // valeurzv = valeurz.split(" ").join(""); //Pour eviter les comptes: 'compte '. Pb dans le transfert.
-    // console.log(valeurzv)
+    nomPrompt = prompt('Nom')
+    valeurPrompt = prompt('valeur')
+    //Faire en sorte que le nom du compte soit propre.
+    let nomPromptClean = nomPrompt.trim().charAt(0).toUpperCase() + nomPrompt.trim().slice(1).toLowerCase();
 
-    // if(valeurz = ){
-    //   creerCompte(nomz, valeurz)
-    // }else{
-    //   alert("La valeur est constitué de lettre, elle ne doit contenir que des chiffres.")
-    // }
+    if (/^\d+$/.test(valeurPrompt)) {
+      creerCompte(nomPromptClean, valeurPrompt);
+  } else {
+      alert("La valeur doit être constituée uniquement de chiffres. Et aucun espace ne doit apparaitre dans la valeur.");
+  }
+    // Interdire les noms de compte avec chiffre ?
 }
 
 function creerCompte(nom, valeur) {
@@ -86,36 +86,44 @@ function chargerComptes() {
         btnAdd.setAttribute('data-compte', nomCompte)
         btnAdd.addEventListener ('click', function() {
           let compteId = compte.nom
-
           comptes[compteId].initiations += 1;
-
           init = comptes[compteId].initiations; // Changer le nom plus tard.
+          let accountValue = comptes[compteId].valeur;
+          
           let somme = prompt("Combien ?")
           let raisonAdd = prompt("Pourquoi ?")
 
-          let accountValue = comptes[compteId].valeur;
-
-          let newSomme = parseInt(accountValue) + parseInt(somme)
-
-          comptes[compteId].valeur = newSomme;
-
-          FluxTracker(compteId, somme, raisonAdd, "21/01/2020", ajout);
-
-          sauvegarderComptes();
-          location.reload();
+          if (/^\d+$/.test(somme)) {
+            let newSomme = parseInt(accountValue) + parseInt(somme)
+            comptes[compteId].valeur = newSomme;
+            FluxTracker(compteId, somme, raisonAdd, "21/01/2020", ajout);
+            sauvegarderComptes();
+            location.reload();
+          } else {
+            alert("La valeur doit être constituée uniquement de chiffres. Et ne doit apparaitre dans la valeur aucun espace.");
+          }
+        // Faire une fonction pour reprendre ce systeme de verification plus simplement sans besoin de le répeter partout ?
+        // Juste besoin de recuperer les infos necessaires et de les envoyer à la fonction.
+        // Embetant, car utilisateur entre toutes les infos et l'alert ne le préviens que à la fin. Surtout pour transfert.
         });
         const btnRetrait = document.createElement('button');
         btnRetrait.textContent = 'Retirer';
         btnRetrait.addEventListener ('click', function() {
-          let soust = prompt("Combien ?")
-          let raisonRetrait = prompt("Pourquoi ?")
           let compteId = compte.nom
           let accountValue = comptes[compteId].valeur;
-          let newSomme = parseInt(accountValue) - parseInt(soust)
-          comptes[compteId].valeur = newSomme;
-          FluxTracker(compteId, soust, raisonRetrait, "21/01/2020", retrait);
-          sauvegarderComptes();
-          location.reload();
+          let soust = prompt("Combien ?")
+          let raisonRetrait = prompt("Pourquoi ?")
+          
+          if (/^\d+$/.test(soust)) {
+            let newSomme = parseInt(accountValue) - parseInt(soust)
+            comptes[compteId].valeur = newSomme;
+            FluxTracker(compteId, soust, raisonRetrait, "21/01/2020", retrait);
+            sauvegarderComptes();
+            location.reload();
+        } else {
+            alert("La valeur doit être constituée uniquement de chiffres. Et ne doit apparaitre dans la valeur aucun espace.");
+        }
+          
         });
         const deleteAccount = document.createElement('button')
         deleteAccount.textContent = 'Supprimer le compte'
@@ -201,7 +209,21 @@ function preTransfert (){
   somme = prompt('Combien ?')
   raison = prompt('Ajouter une raison'); // Inclure somme + prompt des le debut ou le faire plus tard en fonnction du type ?
   commentaire = prompt('Ajouter un commentaire pour le compte: ' + accountId2)
-  transfert(accountId1, accountId2, somme, raison);
+
+  if (/^\d+$/.test(somme)) {
+    if(somme <= comptes[accountId1].valeur){
+      transfert(accountId1, accountId2, somme, raison);
+    }else{
+      alert("Vous n'avez pas assez sur votre compte ! Vous voulez faire un transfert de: " + somme 
+      + ' euros depuis le compte ' + accountId1 + ' vers le compte ' + accountId2 + ". Mais il n'y a actuellement que " 
+      + comptes[accountId1].valeur + ' euros sur le compte ' + accountId1 )
+    }
+  } else {
+    alert("La valeur doit être constituée uniquement de chiffres. Et aucun espace ne doit apparaitre dans la valeur.");
+  }
+
+  
+ 
 
 }
 
@@ -227,18 +249,21 @@ function transfert (accountId1, accountId2, somme, raison){
   location.reload();
 }
 
-// Mieux encadrer l'entree de valeurs pour éviter les problemes (5 000, valeur de comptes en lettres...)
-// Amelioration plus tard des moyens de creations de changement de compte et de modification, retirer les alerts et prompts faire ca mode intuitif.
-// Possibilité de changer le nom du compte, la valeur, supprimer l'historique... ajouter des commentaires aux raisons.
+// selections des comptes pour transfert avec qlq chose de plus visuel.
+// mettre euros apres la valeur du compte.
+// Bloquer les boxs max-width pour empecher redimensionnement lors d'ouverture de details.
 
-// Ajouter le systeme de calcul de date pour dater chq flux.
+// Revoir Design.
+
 // Ajouter le systeme anti-mauvais transfert. si un compte veut transferer 540 sur un autre mais il n'a que 30, refuser le transfert.
 
-// selections des comptes pour transfert avec qlq chose de plus visuel.
+
 
 // BONUS:
 // Ajout d'entrées/sorties d'argent a venir. Ponctuelles ou répétitives.
 // Graphiques du flux monétaire .
 // Prévision avenirs, basé sur les entrées/sorties à venirs et/ou sur des moyennes de dépenses et entrées.
-
-// Design
+// Amelioration plus tard des moyens de creations de changement de compte et de modification, retirer les alerts et prompts faire ca mode intuitif.
+// Possibilité de changer le nom du compte, la valeur, supprimer l'historique... ajouter des commentaires aux raisons.
+// Ajouter le systeme de calcul de date pour dater chq flux.
+// choix du type de monnaie et quand transfert, conversion.
