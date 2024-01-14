@@ -18,7 +18,7 @@ function initCompte (){
     if (/^\d+$/.test(valeurPrompt)) {
       creerCompte(nomPromptClean, valeurPrompt);
   } else {
-      alert("La valeur doit être constituée uniquement de chiffres. Et aucun espace ne doit apparaitre dans la valeur.");
+      alert("La valeur doit être constituée uniquement de chiffres. Et aucun espace ne doit apparaitre dans la valeur. Vous ne pous également pas introduire une valeur négative.");
   }
     // Interdire les noms de compte avec chiffre ?
 }
@@ -31,7 +31,7 @@ function creerCompte(nom, valeur) {
       sauvegarderComptes();
       location.reload();
     } else {
-      alert("Le compte existe déjà :", nom);
+      alert("Le compte existe déjà :", nom);// ou valeur entrée = 0
     }    
     // else if(valeur == Nan || valeur == null || valeur == 0){
     //   alert("Merci d'entrer une valeur valide.")
@@ -72,7 +72,7 @@ function chargerComptes() {
         accountTitle.textContent = compte.nom;
         const accountValue = document.createElement('p');
         accountValue.id = 'account' + compte.nom;
-        accountValue.textContent = compte.valeur;
+        accountValue.textContent = compte.valeur + " € ";
         const buttonsDiv = document.createElement('div');
         buttonsDiv.className = 'buttonsUl';
     
@@ -234,8 +234,8 @@ function transfert (accountId1, accountId2, somme, raison){
   newValeurCompte1 = parseInt(compte1Valeur) - parseInt(somme);
   newValeurCompte2 = parseInt(compte2Valeur) + parseInt(somme);
 
-  raisonTransfert1 = " Transfert vers le compte: " + accountId2 + ' Raison: ' + raison;
-  raisonTransfert2 = " Virement du compte: " + accountId1 + " Commentaire de l'envoyeur " + commentaire;
+  raisonTransfert1 = " Transfert vers le compte: " + accountId2 + '. Raison: ' + raison;
+  raisonTransfert2 = " Virement en provenance du compte: " + accountId1 + ". Commentaire de l'envoyeur: " + commentaire;
 
   FluxTracker(accountId1, somme, raisonTransfert1, "21/01/2020", retrait);
   FluxTracker(accountId2, somme, raisonTransfert2, "21/01/2020", ajout);
@@ -249,15 +249,12 @@ function transfert (accountId1, accountId2, somme, raison){
   location.reload();
 }
 
-// selections des comptes pour transfert avec qlq chose de plus visuel.
-// mettre euros apres la valeur du compte.
+// selections des comptes pour transfert avec qlq chose de plus visuel. Remplacer les prompts ! systeme plus moderne.
 // Bloquer les boxs max-width pour empecher redimensionnement lors d'ouverture de details.
-
+// Mettre l'historique dans le bon ordre. Les plus récents le plus en haut.
+// mettre en couleur le texte de l'historique. ajout et retrait en gras + vert ou rouge.
+// Possibilité d'etre à découvert ? avec retrait ? pourquoi pas. 
 // Revoir Design.
-
-// Ajouter le systeme anti-mauvais transfert. si un compte veut transferer 540 sur un autre mais il n'a que 30, refuser le transfert.
-
-
 
 // BONUS:
 // Ajout d'entrées/sorties d'argent a venir. Ponctuelles ou répétitives.
