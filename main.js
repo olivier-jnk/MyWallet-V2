@@ -33,9 +33,6 @@ function creerCompte(nom, valeur) {
     } else {
       alert("Le compte existe déjà :", nom);// ou valeur entrée = 0
     }    
-    // else if(valeur == Nan || valeur == null || valeur == 0){
-    //   alert("Merci d'entrer une valeur valide.")
-    // }   
 }
 
 function ajouterArgent (){ 
@@ -180,8 +177,6 @@ function FluxTracker (compteId, somme, raison, date, ajoutOuRetrait) {
           raison: raison,
           ajoutOuRetrait: ajoutOuRetrait,
       };
-      // pas mal de faire un message mais peut etre mieux de stocker en plus chaque variables séparément pour pouvoir faire. Apres apparaitre 
-      // Le message voulu en html, en fonction de la situation
 
       comptes[compteId].raisons.push(nouvelleRaison);
 
@@ -199,7 +194,6 @@ function supprCompte (accountId){
   location.reload();
   console.log('suppression de compte initialisé')
   console.log(accountId)
-
 }
 
 function preTransfert (){
@@ -221,10 +215,6 @@ function preTransfert (){
   } else {
     alert("La valeur doit être constituée uniquement de chiffres. Et aucun espace ne doit apparaitre dans la valeur.");
   }
-
-  
- 
-
 }
 
 function transfert (accountId1, accountId2, somme, raison){
@@ -249,18 +239,21 @@ function transfert (accountId1, accountId2, somme, raison){
   location.reload();
 }
 
-// selections des comptes pour transfert avec qlq chose de plus visuel. Remplacer les prompts ! systeme plus moderne.
+// Améliorations / Modifications.
+
+// selections des comptes pour transfert avec qlq chose de plus visuel. Remplacer les prompts ! systeme plus moderne de selection et entree des valeurs.
 // Bloquer les boxs max-width pour empecher redimensionnement lors d'ouverture de details.
 // Mettre l'historique dans le bon ordre. Les plus récents le plus en haut.
 // mettre en couleur le texte de l'historique. ajout et retrait en gras + vert ou rouge.
 // Possibilité d'etre à découvert ? avec retrait ? pourquoi pas. 
+
 // Revoir Design.
 
 // BONUS:
-// Ajout d'entrées/sorties d'argent a venir. Ponctuelles ou répétitives.
+// Ajout d'entrées/sorties d'argent à venir. Temporaires ou permanentes.
 // Graphiques du flux monétaire .
 // Prévision avenirs, basé sur les entrées/sorties à venirs et/ou sur des moyennes de dépenses et entrées.
 // Amelioration plus tard des moyens de creations de changement de compte et de modification, retirer les alerts et prompts faire ca mode intuitif.
 // Possibilité de changer le nom du compte, la valeur, supprimer l'historique... ajouter des commentaires aux raisons.
 // Ajouter le systeme de calcul de date pour dater chq flux.
-// choix du type de monnaie et quand transfert, conversion.
+// choix du type de monnaie et conversion lors du transfert.
