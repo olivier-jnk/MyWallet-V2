@@ -25,9 +25,7 @@ function initCompte (){
 
 function creerCompte(nom, valeur) {
     if (!comptes.hasOwnProperty(nom) && valeur != NaN && valeur != null && valeur != 0) { 
-      // Modifier le if, pour que la valeur soit correcte et que si non elseif spéciale, sinon: compte existe déjà.
       comptes[nom] = { nom: nom, valeur: valeur, raisons: [], initiations: 0};
-      // comptes[raisons] = [];
       sauvegarderComptes();
       location.reload();
     } else {
@@ -36,8 +34,8 @@ function creerCompte(nom, valeur) {
 }
 
 function ajouterArgent (){ 
-  somme = prompt('entrez la somme à ajouter')
-  raison = prompt('Quel est la raison')
+  let somme = prompt('entrez la somme à ajouter')
+  let raison = prompt('Quel est la raison')
   if (somme !== isNaN && somme !== null && somme !== 0) {
 
   } else {
@@ -99,9 +97,6 @@ function chargerComptes() {
           } else {
             alert("La valeur doit être constituée uniquement de chiffres. Et ne doit apparaitre dans la valeur aucun espace.");
           }
-        // Faire une fonction pour reprendre ce systeme de verification plus simplement sans besoin de le répeter partout ?
-        // Juste besoin de recuperer les infos necessaires et de les envoyer à la fonction.
-        // Embetant, car utilisateur entre toutes les infos et l'alert ne le préviens que à la fin. Surtout pour transfert.
         });
         const btnRetrait = document.createElement('button');
         btnRetrait.textContent = 'Retirer';
@@ -155,7 +150,6 @@ function chargerComptes() {
           let raisonajoutOuRetrait = comptes[nomCompte].raisons[i].ajoutOuRetrait
 
           //Trouver un moyen plus propre de faire tout ca
-          
           const raisonLi = document.createElement('li')
           raisonLi.textContent = raisonajoutOuRetrait + ' de ' + raisonSomme + ' euros : ' + raisonRaison;
           raisonLi.id = nomCompte + iteration;
@@ -188,7 +182,6 @@ function FluxTracker (compteId, somme, raison, date, ajoutOuRetrait) {
 }
 
 function supprCompte (accountId){
-
   delete comptes[accountId];
   sauvegarderComptes();
   location.reload();
@@ -197,7 +190,6 @@ function supprCompte (accountId){
 }
 
 function preTransfert (){
-
   accountId1 = prompt('Compte qui envoie')
   accountId2 = prompt('Compte qui recoit')
   somme = prompt('Combien ?')
@@ -238,22 +230,3 @@ function transfert (accountId1, accountId2, somme, raison){
   sauvegarderComptes();
   location.reload();
 }
-
-// Améliorations / Modifications.
-
-// selections des comptes pour transfert avec qlq chose de plus visuel. Remplacer les prompts ! systeme plus moderne de selection et entree des valeurs.
-// Bloquer les boxs max-width pour empecher redimensionnement lors d'ouverture de details.
-// Mettre l'historique dans le bon ordre. Les plus récents le plus en haut.
-// mettre en couleur le texte de l'historique. ajout et retrait en gras + vert ou rouge.
-// Possibilité d'etre à découvert ? avec retrait ? pourquoi pas. 
-
-// Revoir Design.
-
-// BONUS:
-// Ajout d'entrées/sorties d'argent à venir. Temporaires ou permanentes.
-// Graphiques du flux monétaire .
-// Prévision avenirs, basé sur les entrées/sorties à venirs et/ou sur des moyennes de dépenses et entrées.
-// Amelioration plus tard des moyens de creations de changement de compte et de modification, retirer les alerts et prompts faire ca mode intuitif.
-// Possibilité de changer le nom du compte, la valeur, supprimer l'historique... ajouter des commentaires aux raisons.
-// Ajouter le systeme de calcul de date pour dater chq flux.
-// choix du type de monnaie et conversion lors du transfert.
