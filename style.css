@@ -42,7 +42,7 @@ details{
     display: flex;
     flex-direction: column-reverse;
 }
-/* Fonctionne pas pour la remise en ordre */
+/* Mise en ordre chrnologique du flux ne fonctionne pas. */
 
 details li{
     list-style-type: none;

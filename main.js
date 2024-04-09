@@ -1,8 +1,5 @@
 let comptes = {};
-let accountNum = 0;
 let init = 0;
-let ajout = 'Ajout'
-let retrait = 'Retrait'
 let iteration = 0
 
 window.onload = function () {
@@ -91,7 +88,7 @@ function chargerComptes() {
           if (/^\d+$/.test(somme)) {
             let newSomme = parseInt(accountValue) + parseInt(somme)
             comptes[compteId].valeur = newSomme;
-            FluxTracker(compteId, somme, raisonAdd, "21/01/2020", ajout);
+            FluxTracker(compteId, somme, raisonAdd, "21/01/2020", 'Ajout');
             sauvegarderComptes();
             location.reload();
           } else {
@@ -109,7 +106,7 @@ function chargerComptes() {
           if (/^\d+$/.test(soust)) {
             let newSomme = parseInt(accountValue) - parseInt(soust)
             comptes[compteId].valeur = newSomme;
-            FluxTracker(compteId, soust, raisonRetrait, "21/01/2020", retrait);
+            FluxTracker(compteId, soust, raisonRetrait, "21/01/2020", 'Retrait');
             sauvegarderComptes();
             location.reload();
         } else {
@@ -142,19 +139,16 @@ function chargerComptes() {
         console.log(comptes[nomCompte].raisons.length + 'length')
 
         for (let i = 0; i < comptes[nomCompte].raisons.length; i++) {
-          console.log('LANCE')
-          // Recuperation de tous les element du flux et conversion en chaine de caracteres.
           let raisonDate = comptes[nomCompte].raisons[i].date // Innutilisé pour l'instant, ajouter calcul de date et heure ?
           let raisonRaison = comptes[nomCompte].raisons[i].raison
           let raisonSomme = comptes[nomCompte].raisons[i].somme
           let raisonajoutOuRetrait = comptes[nomCompte].raisons[i].ajoutOuRetrait
 
-          //Trouver un moyen plus propre de faire tout ca
           const raisonLi = document.createElement('li')
           raisonLi.textContent = raisonajoutOuRetrait + ' de ' + raisonSomme + ' euros : ' + raisonRaison;
           raisonLi.id = nomCompte + iteration;
           detailsGet.appendChild(raisonLi);
-          // iteration += 1;
+          iteration += 1;
         } 
       }
     } 
